@@ -3,6 +3,7 @@ package com.shyam.barcodereader;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,11 +26,13 @@ public class MainActivity extends AppCompatActivity {
         messageFormat = findViewById(R.id.textFormat);
         btnScanBarcode = findViewById(R.id.btnScanBarcode);
         btnScanBarcode.setOnClickListener(v -> {
-            IntentIntegrator intentIntegrator = new IntentIntegrator(this);
+            /*IntentIntegrator intentIntegrator = new IntentIntegrator(this);
             intentIntegrator.setPrompt("Scan a QR-Code");
             intentIntegrator.setOrientationLocked(true);
             intentIntegrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
-            intentIntegrator.initiateScan();
+            intentIntegrator.initiateScan();*/
+//            startActivity(new Intent(MainActivity.this,ScanBArcodeActivity.class));
+            startActivity(new Intent(MainActivity.this,SquareScannerActivity.class));
         });
     }
 
@@ -44,10 +47,11 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getBaseContext(), "Cancelled", Toast.LENGTH_SHORT).show();
             } else {
                 // if the intentResult is not null we'll set the content and format of scan message
-                Log.e(TAG, "onActivityResult: " + intentResult.getBarcodeImagePath());
-                Log.e(TAG, "onActivityResult: " + intentResult.getContents());
+                Log.e(TAG, "onActivityResult: " + intentResult.getContents().length());
+                Log.e(TAG, "onActivityResult: "+intentResult.getContents().substring(31,43));
+                Log.e(TAG, "onActivityResult: "+intentResult.getContents());
                 messageText.setText(intentResult.getContents());
-               // messageFormat.setText(intentResult.getFormatName());
+                messageFormat.setText(intentResult.getContents().substring(31,43));
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
